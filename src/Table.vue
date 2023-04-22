@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div v-if="body?.length !== 0">
+    <div
+      v-if="body?.length === 0"
+      class="flex justify-center p-4 rounded bg-yellow-100 text-yellow-700 text-lg"
+    >
+      No data to show
+    </div>
+    <div v-else>
       <div v-if="searchable" class="flex mb-4">
         <input
           type="text"
@@ -69,12 +75,21 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div
-      v-else
-      class="flex justify-center p-4 rounded bg-yellow-100 text-yellow-700 text-lg"
-    >
-      No data to show
+      <div
+        class="flex justify-between items-center w-full border rounded h-10 px-4"
+      >
+        <div class="flex">
+          {{ body?.length }}
+        </div>
+        <div class="flex">
+          <select v-model="page" name="pages" id="pages" class="border-2 border-black">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +104,7 @@ const props = defineProps({
   deleteFunc: { type: Function, default: null },
 });
 
+const page = ref(props.body.length); // for pagination
 const search = ref("");
 const sorting = reactive({
   sortState: null,
@@ -116,7 +132,8 @@ const filteredData = computed(() => {
           .toString()
           .localeCompare(a[sorting.sortState.key]);
       }
-    });
+    })
+    .splice(0, page.value);
 });
 
 const sort = (key) => {
