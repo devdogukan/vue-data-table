@@ -1,6 +1,22 @@
 # vue-data-table
 
-## search    ✔
-## sortable  ✔
-## delete    ✔
-## edit      TODO
+
+## TODOS
+
+- [x] search
+- [x] sortable
+- [x] delete
+- [ ] edit      TODO
+
+
+## Project setup, development and build
+
+```
+pnpm install
+
+# development
+pnpm preview
+
+# production
+pnpm build
+```

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="body?.length === 0"
+      v-if="body.length === 0"
       class="flex justify-center p-4 rounded bg-yellow-100 text-yellow-700 text-lg"
     >
       No data to show
@@ -81,8 +81,26 @@
         <div class="flex">
           {{ body?.length }}
         </div>
-        <div class="flex">
-          <select v-model="page" name="pages" id="pages" class="border-2 border-black">
+        <div class="flex gap-x-5">
+          <div class="flex gap-x-2 items-center">
+            <button :disabled="page == 0">
+              <v-icon
+                @click="page--"
+                class="flex"
+                name="fc-previous"
+                fill="red"
+              ></v-icon>
+            </button>
+            <button class="flex" :disabled="page < body.length / page" @click="page++">
+              <v-icon name="fc-next"></v-icon>
+            </button>
+          </div>
+          <select
+            v-model="numberOfData"
+            name="pages"
+            id="pages"
+            class="border-2 border-black"
+          >
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -104,13 +122,15 @@ const props = defineProps({
   deleteFunc: { type: Function, default: null },
 });
 
-const page = ref(props.body.length); // for pagination
+const page = ref(1);
+const numberOfData = ref(props.body.length); // for pagination
 const search = ref("");
 const sorting = reactive({
   sortState: null,
 });
 
 const filteredData = computed(() => {
+  console.log(page.value);
   return props.body
     .filter((items) =>
       items.some((item) =>
@@ -133,7 +153,7 @@ const filteredData = computed(() => {
           .localeCompare(a[sorting.sortState.key]);
       }
     })
-    .splice(0, page.value);
+    .splice((page.value - 1) * numberOfData.value, numberOfData.value);
 });
 
 const sort = (key) => {
