@@ -6,7 +6,8 @@
 - [x] search
 - [x] sortable
 - [x] delete
-- [ ] edit      TODO
+- [ ] pagination
+- [ ] edit
 
 
 ## Project setup, development and build
