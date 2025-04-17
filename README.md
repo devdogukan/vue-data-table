@@ -3,4 +3,10 @@
 ## search    ✔
 ## sortable  ✔
 ## delete    ✔
-## edit      TODO
+
+## TODO
+## - pagination
+## - filter
+## - edit
+## - add
+## - select
